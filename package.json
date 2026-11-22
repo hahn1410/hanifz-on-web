@@ -1,0 +1,9 @@
+{
+  "name": "hanifzulkifli-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/",
+    "update": "node scripts/update.js"
+  }
+}
