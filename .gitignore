@@ -1,0 +1,5 @@
+.tools/
+.claude/
+.superpowers/
+node_modules/
+.DS_Store
