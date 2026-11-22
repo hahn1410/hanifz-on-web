@@ -57,3 +57,8 @@ test("output is newest first", () => {
   const out = mergeVideos(store, [tt("111", "2023-06-01")], { "111": { title: "t", thumbPath: "p" } });
   assert.deepEqual(out.map((v) => v.id), ["shortshort1", "abcdefghijk", "tt-111"]);
 });
+
+test("a sheet date equal to YouTube's own date keeps the exact upload time", () => {
+  const [, vid] = mergeVideos(store, [yt("abcdefghijk", { date: "2024-01-02" })], {});
+  assert.equal(vid.publishedAt, "2024-01-01T17:00:00Z");
+});

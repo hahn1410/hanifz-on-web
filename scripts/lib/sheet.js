@@ -87,6 +87,8 @@ export function parseSheet(csv) {
   const header = head.map((h) => h.trim().toLowerCase());
   const rows = [], problems = [];
   data.forEach((cells, i) => {
+    // Unused rows still carry the tick box's FALSE: treat them as blank.
+    if (cells.every((c) => c.trim() === "" || c.trim().toUpperCase() === "FALSE")) return;
     const { row, problem } = analyzeRow(cells, header);
     if (row) rows.push(row);
     if (problem) problems.push(`Sheet row ${i + 2}: ${problem}`);

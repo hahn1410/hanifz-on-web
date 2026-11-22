@@ -89,3 +89,11 @@ test("parseSheet reports rows it had to skip or whose date it couldn't read", ()
   assert.match(problems[0], /row 2/);
   assert.match(problems[1], /date/);
 });
+
+test("empty rows that only hold an unticked hide box are ignored silently", () => {
+  const csv = "date,link,title,hide\n2026-01-01,https://youtu.be/abcdefghijk,,TRUE\n,,,FALSE\n,,,FALSE\n";
+  const { rows, problems } = parseSheet(csv);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].hide, true);
+  assert.deepEqual(problems, []);
+});

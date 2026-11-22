@@ -26,7 +26,7 @@ export function mergeVideos(store, rows, tiktokCache) {
     const row = ytRows.get(s.id);
     if (row?.hide) continue;
     const v = youtubeVideo(s.id, s.title, s.publishedAt, s.isShort);
-    if (row?.date) { v.date = row.date; v.publishedAt = noon(row.date); }
+    if (row?.date && row.date !== v.date) { v.date = row.date; v.publishedAt = noon(row.date); }
     if (row?.title) v.title = row.title;
     out.push(v);
   }
