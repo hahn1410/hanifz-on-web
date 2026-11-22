@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns:yt="http://www.youtube.com/xml/schemas/2015" xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom">
+ <link rel="self" href="http://www.youtube.com/feeds/videos.xml?channel_id=UCxxxxxxxxxxxxxxxxxxxxxx"/>
+ <id>yt:channel:xxxxxxxxxxxxxxxxxxxxxx</id>
+ <yt:channelId>xxxxxxxxxxxxxxxxxxxxxx</yt:channelId>
+ <title>Hanif Z.</title>
+ <published>2020-01-01T00:00:00+00:00</published>
+ <entry>
+  <id>yt:video:vidAAAAAAA1</id>
+  <yt:videoId>vidAAAAAAA1</yt:videoId>
+  <title>Penang night market &amp; more</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=vidAAAAAAA1"/>
+  <published>2026-11-20T13:00:05+00:00</published>
+  <updated>2026-11-21T01:00:00+00:00</updated>
+  <media:group><media:title>Penang night market &amp; more</media:title></media:group>
+ </entry>
+ <entry>
+  <id>yt:video:vidBBBBBBB2</id>
+  <yt:videoId>vidBBBBBBB2</yt:videoId>
+  <title>Quick &quot;short&quot; clip</title>
+  <link rel="alternate" href="https://www.youtube.com/shorts/vidBBBBBBB2"/>
+  <published>2026-11-19T09:00:00+00:00</published>
+  <updated>2026-11-19T09:10:00+00:00</updated>
+ </entry>
+ <entry>
+  <id>yt:video:vidCCCCCCC3</id>
+  <yt:videoId>vidCCCCCCC3</yt:videoId>
+  <title>Desert day 3</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=vidCCCCCCC3"/>
+  <published>2026-11-18T17:30:00+00:00</published>
+  <updated>2026-11-18T18:00:00+00:00</updated>
+ </entry>
+</feed>
