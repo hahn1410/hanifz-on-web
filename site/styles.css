@@ -1,0 +1,123 @@
+:root {
+  --ink: #141414;
+  --paper: #fafaf7;
+  --cell: #ffffff;
+  --line: #cfcfcf;
+  --muted: #8a8a8a;
+  --yt: #e02020;
+  --short: #ff7a00;
+  --tt: #111111;
+  --tick: #19a974;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: Inter, system-ui, sans-serif; color: var(--ink); background: var(--paper); -webkit-text-size-adjust: 100%; }
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Landing ---------- */
+.hero { position: relative; height: 100vh; height: 100svh; min-height: 560px; color: #fff; overflow: hidden; background: #2b2b2b; }
+.hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 55%, rgba(0,0,0,.65) 100%); }
+.topbar { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 24px 32px; }
+.logo { font-family: "Bodoni Moda", serif; font-style: italic; font-weight: 800; font-size: 30px; letter-spacing: -.5px; white-space: nowrap; }
+.nav { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+.pill { border: 1px solid currentColor; border-radius: 999px; padding: 7px 16px; font-size: 13px; transition: background .2s, color .2s; }
+.pill:hover { background: #fff; color: var(--ink); }
+.hero-text { position: absolute; z-index: 2; left: 32px; right: 32px; bottom: 48px; }
+.kicker { font-size: 13px; letter-spacing: .2em; text-transform: uppercase; opacity: .85; }
+.hero-text h1 { font-family: "Bodoni Moda", serif; font-weight: 500; font-size: clamp(40px, 7vw, 88px); line-height: 1; margin: 10px 0 24px; }
+.cta { display: inline-flex; align-items: center; gap: 12px; background: #fff; color: var(--ink); border-radius: 999px; padding: 14px 26px; font-weight: 600; font-size: 15px; transition: transform .2s; }
+.cta:hover { transform: translateY(-2px); }
+.cta span { font-size: 20px; }
+.caption { position: absolute; z-index: 2; right: 32px; bottom: 52px; font-size: 12px; opacity: .75; text-align: right; }
+
+/* ---------- Archive ---------- */
+.archive { max-width: 1100px; margin: 0 auto; padding: 72px 24px 96px; }
+.archive-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 40px; flex-wrap: wrap; }
+.archive-head h2 { font-family: "Bodoni Moda", serif; font-style: italic; font-weight: 800; font-size: 34px; }
+.stats { font-size: 13px; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--muted); margin-top: 6px; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+.sw.yt { background: var(--yt); } .sw.short { background: var(--short); } .sw.tt { background: var(--tt); }
+.loading, .error { color: var(--muted); padding: 48px 0; text-align: center; }
+
+.month { margin-bottom: 64px; }
+.month .year { text-align: center; font-size: 13px; letter-spacing: .3em; color: var(--muted); }
+.month h3 { text-align: center; font-family: "Bodoni Moda", serif; font-weight: 400; font-size: clamp(44px, 8vw, 84px); line-height: 1; letter-spacing: .02em; margin: 4px 0 18px; }
+.grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.dow { font-size: 11px; text-align: center; padding: 6px 0; color: var(--muted); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; }
+.dow .short-name { display: none; }
+
+.day { position: relative; aspect-ratio: 16 / 10; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--cell); overflow: hidden; }
+.day.blank { background: transparent; }
+.day .num { position: absolute; top: 4px; left: 6px; font-size: 11px; color: var(--muted); z-index: 3; pointer-events: none; }
+.day.has .num { color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.7); }
+
+.day .main { position: absolute; inset: 0; display: block; }
+.day .main img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s ease, opacity .25s ease; background: #ddd; }
+.day.has:hover .main img { transform: scale(1.06); }
+
+.day .title { position: absolute; inset: auto 0 0 0; z-index: 2; padding: 16px 6px 5px; font-size: 10px; color: #fff; line-height: 1.2;
+  background: linear-gradient(0deg, rgba(0,0,0,.85), rgba(0,0,0,0)); opacity: 0; transition: opacity .2s; pointer-events: none;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.day.has:hover .title, .day.revealed .title { opacity: 1; }
+
+.tag { position: absolute; right: 4px; bottom: 4px; z-index: 3; font-size: 9px; font-weight: 600; padding: 2px 5px; border-radius: 3px; color: #fff; pointer-events: none; }
+.tag.youtube { background: var(--yt); } .tag.short { background: var(--short); } .tag.tiktok { background: var(--tt); border: 1px solid #444; }
+.day.has:hover .tag, .day.revealed .tag { opacity: 0; }
+
+.badges { position: absolute; left: 4px; bottom: 4px; z-index: 4; display: flex; gap: 3px; }
+.badge { font-size: 9px; font-weight: 600; padding: 2px 5px; border-radius: 3px; color: #fff; background: rgba(0,0,0,.75); border: 1px solid rgba(255,255,255,.5); white-space: nowrap; }
+.badge.youtube { background: var(--yt); } .badge.short { background: var(--short); } .badge.tiktok { background: var(--tt); }
+.badge:hover { filter: brightness(1.2); }
+
+.tick { position: absolute; top: 3px; right: 3px; z-index: 4; width: 22px; height: 22px; border-radius: 50%; border: 1px solid rgba(255,255,255,.8);
+  background: rgba(0,0,0,.35); color: transparent; font-size: 13px; line-height: 20px; text-align: center; cursor: pointer; padding: 0; opacity: 0; transition: opacity .2s, background .2s; }
+.day.has:hover .tick, .day.revealed .tick, .day.watched .tick { opacity: 1; }
+.tick:focus-visible { opacity: 1; outline: 2px solid #fff; }
+.day.watched .tick { background: var(--tick); border-color: var(--tick); color: #fff; }
+.day.watched .main img { opacity: .55; }
+
+.day.miss::before, .day.miss::after { content: ""; position: absolute; left: 50%; top: 50%; width: 46%; height: 5px; background: var(--ink); border-radius: 2px; }
+.day.miss::before { transform: translate(-50%, -50%) rotate(40deg); }
+.day.miss::after { transform: translate(-50%, -50%) rotate(-40deg); }
+
+/* ---------- Footer ---------- */
+.footer { background: var(--ink); color: #eee; padding: 56px 32px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; }
+.footer h3 { font-family: "Bodoni Moda", serif; font-weight: 400; font-size: 44px; line-height: 1; color: #fff; margin-bottom: 16px; }
+.footer p { font-size: 14px; line-height: 1.7; color: #bbb; max-width: 56ch; }
+.footer .links { list-style: none; font-size: 15px; line-height: 2.1; }
+.footer .links a:hover { text-decoration: underline; }
+.footer small { grid-column: 1 / -1; font-size: 11px; color: #777; }
+
+/* ---------- Phones ---------- */
+@media (max-width: 640px) {
+  .topbar { padding: 18px 16px; }
+  .logo { font-size: 24px; }
+  .nav .pill { padding: 6px 12px; font-size: 12px; }
+  .nav .pill:nth-child(2) { display: none; }
+  .hero-text { left: 16px; right: 16px; bottom: 40px; }
+  .caption { display: none; }
+  .archive { padding: 48px 8px 72px; }
+  .archive-head { padding: 0 8px; }
+  .month { margin-bottom: 48px; }
+  .dow { font-size: 10px; }
+  .dow .long-name { display: none; }
+  .dow .short-name { display: inline; }
+  .day .num { font-size: 9px; top: 2px; left: 3px; }
+  .tag { display: none; }
+  .badges { left: 2px; bottom: 2px; gap: 2px; }
+  .badge { font-size: 0; width: 8px; height: 8px; padding: 0; border-radius: 50%; }
+  .tick { width: 16px; height: 16px; line-height: 14px; font-size: 10px; top: 2px; right: 2px; }
+  .day .title { font-size: 9px; padding: 10px 3px 3px; -webkit-line-clamp: 2; }
+  .day.miss::before, .day.miss::after { height: 3px; }
+  .footer { grid-template-columns: 1fr; padding: 40px 16px; }
+  .footer h3 { font-size: 36px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}

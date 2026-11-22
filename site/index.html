@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hanif Z. — Vlog Archive</title>
+  <meta name="description" content="Hanif Zulkifli — documentary filmmaker from Penang, Malaysia. Every vlog, day by day.">
+  <meta property="og:title" content="Hanif Z. — Vlog Archive">
+  <meta property="og:description" content="Every vlog, day by day.">
+  <meta property="og:image" content="img/hero.jpg">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%23141414'/><text x='50%25' y='58%25' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-weight='700' font-size='38' fill='%23fff'>H</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+
+<header class="hero">
+  <!-- Hero photo: replace site/img/hero.jpg with Hanif's best photo (landscape, ~2400px wide). -->
+  <img class="hero-img" src="img/hero.svg" alt="" fetchpriority="high">
+  <nav class="topbar">
+    <a class="logo" href="#">Hanif Z.</a>
+    <div class="nav">
+      <a class="pill" href="#archive">Vlog archive</a>
+      <a class="pill" href="#about">About me</a>
+      <a class="pill" href="#contact">Get in touch</a>
+    </div>
+  </nav>
+  <div class="hero-text">
+    <p class="kicker">Documentary filmmaker · Penang, Malaysia</p>
+    <h1>Stories from<br>the road.</h1>
+    <a class="cta" href="#archive">Open the vlog archive <span aria-hidden="true">→</span></a>
+  </div>
+  <p class="caption" id="hero-caption"></p>
+</header>
+
+<main class="archive" id="archive">
+  <div class="archive-head">
+    <div>
+      <h2>Vlog Archive</h2>
+      <div class="legend">
+        <span><i class="sw yt"></i>YouTube</span>
+        <span><i class="sw short"></i>Short</span>
+        <span><i class="sw tt"></i>TikTok</span>
+        <span><b>✕</b> no vlog that day</span>
+        <span><b>✓</b> watched</span>
+      </div>
+    </div>
+    <p class="stats" id="stats"></p>
+  </div>
+  <div id="months" aria-live="polite"><p class="loading">Loading the archive…</p></div>
+</main>
+
+<footer class="footer">
+  <section id="about">
+    <h3>About me</h3>
+    <!-- Replace with Hanif's About text from the Canva site. -->
+    <p>Born and raised in a suburb of Penang, Malaysia, I studied architecture before turning to documentary film. I tell stories about people, places and the road in between.</p>
+  </section>
+  <section id="contact">
+    <h3>Get in touch</h3>
+    <!-- Replace placeholders with Hanif's real contact details. -->
+    <ul class="links">
+      <li><a href="mailto:hello@hanifzulkifli.com">hello@hanifzulkifli.com</a></li>
+      <li><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="https://x.com/" target="_blank" rel="noopener">X / Twitter</a></li>
+      <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a></li>
+    </ul>
+  </section>
+  <small>© <span id="year"></span> Hanif Zulkifli</small>
+</footer>
+
+</body>
+</html>

@@ -32,7 +32,7 @@ export function buildMonth(year, month, byDay, today, firstVideoDate) {
     const videos = byDay.get(date) ?? [];
     let state;
     if (videos.length) state = "video";
-    else if (date > today) state = "future";
+    else if (date >= today) state = "future";
     else if (firstVideoDate && date < firstVideoDate) state = "before";
     else state = "none";
     days.push({ n, date, state, videos });

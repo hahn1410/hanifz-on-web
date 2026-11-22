@@ -41,10 +41,16 @@ test("buildMonth: video, ✕ (none), future and before-first-video states", () =
   assert.equal(state(4), "none");
   assert.equal(state(5), "video");
   assert.equal(m.days[4].videos[0].id, "a");
-  assert.equal(state(10), "none");
+  assert.equal(state(9), "none");
   assert.equal(state(11), "future");
 });
 
 test("buildMonth: February in a leap year has 29 days", () => {
   assert.equal(buildMonth(2024, 1, new Map(), "2026-01-01", "2022-06-01").days.length, 29);
+});
+
+test("buildMonth: today without an upload is not ✕ yet (day isn't over)", () => {
+  const m = buildMonth(2024, 10, new Map(), "2024-11-10", "2022-06-01");
+  assert.equal(m.days[9].state, "future");
+  assert.equal(m.days[8].state, "none");
 });
