@@ -29,12 +29,24 @@ test("detectShort: 200 from /shorts/ means Short", async () => {
   assert.equal(calls[0][1].redirect, "manual");
 });
 
-test("detectShort: redirect means regular video", async () => {
-  assert.equal(await detectShort("abc", async () => ({ status: 303 })), false);
+const redirect = (status, location) => async () => ({ status, headers: { get: (h) => (h.toLowerCase() === "location" ? location : null) } });
+
+test("detectShort: redirect to /watch means regular video", async () => {
+  assert.equal(await detectShort("abc", redirect(303, "https://www.youtube.com/watch?v=abc")), false);
 });
 
-test("detectShort: network error falls back to regular video", async () => {
-  assert.equal(await detectShort("abc", async () => { throw new Error("offline"); }), false);
+test("detectShort: redirect anywhere else (consent page) is unknown", async () => {
+  assert.equal(await detectShort("abc", redirect(302, "https://consent.youtube.com/m?continue=x")), null);
+});
+
+test("detectShort: network error is unknown", async () => {
+  assert.equal(await detectShort("abc", async () => { throw new Error("offline"); }), null);
+});
+
+test("addNewToStore re-checks videos whose Short status was unknown", async () => {
+  const store = [{ id: "vidAAAAAAA1", title: "t", publishedAt: "2026-11-20T13:00:05+00:00", isShort: null }];
+  const { store: out } = await addNewToStore(store, [], async () => true);
+  assert.equal(out[0].isShort, true);
 });
 
 test("addNewToStore adds only unseen ids, records isShort, newest first", async () => {

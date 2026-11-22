@@ -40,3 +40,13 @@ test("corrupt saved data is ignored", () => {
   s.setItem("hz-watched", "{not json");
   assert.equal(createWatched(s).has("a"), false);
 });
+
+test("a browser that throws just for touching localStorage still works", () => {
+  Object.defineProperty(globalThis, "localStorage", { configurable: true, get() { throw new Error("SecurityError"); } });
+  try {
+    const w = createWatched();
+    assert.equal(w.toggle("a"), true);
+  } finally {
+    delete globalThis.localStorage;
+  }
+});

@@ -1,8 +1,14 @@
 const KEY = "hz-watched";
 
 /** Per-visitor "watched" ticks, saved in this browser. Never throws if storage is blocked. */
-export function createWatched(storage = globalThis.localStorage) {
+export function createWatched(storage) {
   let ids = new Set();
+  try {
+    // Even reading window.localStorage throws when the browser blocks site data.
+    if (storage === undefined) storage = globalThis.localStorage;
+  } catch {
+    storage = null;
+  }
   try {
     const saved = JSON.parse(storage?.getItem(KEY) ?? "[]");
     if (Array.isArray(saved)) ids = new Set(saved);

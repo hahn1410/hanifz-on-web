@@ -58,3 +58,28 @@ test("sheet down: falls back to the cached sheet rows", async () => {
   assert.ok(!ids.includes("abcdefghijk"), "hidden via cached sheet");
   assert.ok(ids.includes("vidAAAAAAA1"));
 });
+
+test("a corrupt YouTube store is never overwritten with only the latest feed", async () => {
+  const root = makeRoot();
+  mkdirSync(join(root, "data"), { recursive: true });
+  writeFileSync(join(root, "data/youtube.json"), "{oops");
+  const fetchFn = async (url) => {
+    if (url.includes("feeds/videos.xml")) return { ok: true, status: 200, text: async () => feed };
+    throw new Error("offline");
+  };
+  const { warnings } = await runUpdate({ config, root, fetchFn, detect: async () => false });
+  assert.equal(readFileSync(join(root, "data/youtube.json"), "utf8"), "{oops");
+  assert.ok(warnings.some((w) => /youtube\.json/.test(w)));
+});
+
+test("sheet problems show up as warnings in the run log", async () => {
+  const root = makeRoot();
+  const csv = "date,link,title,hide\n2026-01-01,https://instagram.com/p/x,,\n";
+  const fetchFn = async (url) => {
+    if (url === config.sheetCsvUrl) return { ok: true, status: 200, text: async () => csv };
+    if (url.includes("feeds/videos.xml")) return { ok: true, status: 200, text: async () => feed };
+    throw new Error("unexpected " + url);
+  };
+  const { warnings } = await runUpdate({ config, root, fetchFn, detect: async () => false });
+  assert.ok(warnings.some((w) => /row 2/.test(w)));
+});

@@ -27,9 +27,20 @@ export async function runUpdate({ config, root, fetchFn = fetch, detect = detect
   const warnings = [];
   const p = (rel) => join(root, rel);
 
-  // 1. YouTube feed -> permanent store
-  let store = await readJson(p("data/youtube.json"), []);
+  // 1. YouTube feed -> permanent store (a corrupt store is never overwritten)
+  let store = [];
+  let storeOk = true;
   try {
+    store = JSON.parse(await readFile(p("data/youtube.json"), "utf8"));
+    if (!Array.isArray(store)) throw new Error("not a list");
+  } catch (e) {
+    if (e.code !== "ENOENT") {
+      storeOk = false;
+      store = [];
+      warnings.push(`data/youtube.json is unreadable (${e.message}) — left untouched; restore it from git history`);
+    }
+  }
+  if (storeOk) try {
     if (!config.channelId) throw new Error("channelId not set in config.json");
     const xml = await getText(fetchFn, feedUrl(config.channelId));
     const res = await addNewToStore(store, parseFeed(xml), (id) => detect(id, fetchFn));
@@ -44,7 +55,9 @@ export async function runUpdate({ config, root, fetchFn = fetch, detect = detect
   let rows = await readJson(p("data/sheet-cache.json"), []);
   try {
     if (!config.sheetCsvUrl) throw new Error("sheetCsvUrl not set in config.json");
-    rows = parseSheet(await getText(fetchFn, config.sheetCsvUrl));
+    const sheet = parseSheet(await getText(fetchFn, config.sheetCsvUrl));
+    rows = sheet.rows;
+    warnings.push(...sheet.problems);
     await writeJson(p("data/sheet-cache.json"), rows);
     console.log(`Sheet: ${rows.length} usable rows`);
   } catch (e) {
@@ -65,7 +78,11 @@ export async function runUpdate({ config, root, fetchFn = fetch, detect = detect
   }
   if (tiktokChanged) await writeJson(p("data/tiktok.json"), tiktok);
 
-  // 4. Merge and publish — never replace the live list with an empty one
+  // 4. Merge and publish — never replace the live list with an empty or partial one
+  if (!storeOk) {
+    warnings.push("Skipped publishing because the YouTube store is unreadable");
+    return { warnings };
+  }
   const videos = mergeVideos(store, rows, tiktok);
   if (videos.length > 0) {
     await writeJson(p("site/data/videos.json"), videos);

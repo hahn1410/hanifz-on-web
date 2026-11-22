@@ -59,8 +59,33 @@ test("normalizeRow: impossible date is treated as no date", () => {
 
 test("parseSheet uses the header row, tolerates column order and junk rows", () => {
   const csv = "Link,Date,Hide,Title\nhttps://youtu.be/abcdefghijk,2024-01-02,,New\nnot a link,,,\n";
-  const rows = parseSheet(csv);
+  const { rows } = parseSheet(csv);
   assert.equal(rows.length, 1);
   assert.equal(rows[0].date, "2024-01-02");
   assert.equal(rows[0].title, "New");
+});
+
+test("normalizeRow: TikTok app share links (vm./vt.tiktok.com) are accepted", () => {
+  const r = normalizeRow(["2026-11-20", "https://vm.tiktok.com/ZMabc123/", "", ""], H);
+  assert.equal(r.kind, "tiktok");
+  assert.equal(r.videoId, "vm-ZMabc123");
+  assert.equal(normalizeRow(["2026-11-20", "https://vt.tiktok.com/ZSxyz789", "", ""], H).videoId, "vt-ZSxyz789");
+});
+
+test("normalizeRow: links must really be https TikTok/YouTube", () => {
+  assert.equal(normalizeRow(["2026-11-20", "javascript:alert(1)//tiktok.com/a/video/1", "", ""], H), null);
+});
+
+test("normalizeRow: written-out dates like '3 Nov 2024' and 'Nov 3, 2024' are read", () => {
+  assert.equal(normalizeRow(["3 Nov 2024", "https://youtu.be/abcdefghijk", "", ""], H).date, "2024-11-03");
+  assert.equal(normalizeRow(["November 3, 2024", "https://youtu.be/abcdefghijk", "", ""], H).date, "2024-11-03");
+});
+
+test("parseSheet reports rows it had to skip or whose date it couldn't read", () => {
+  const csv = "date,link,title,hide\n2026-01-01,https://instagram.com/p/x,,\n13/13/2026,https://youtu.be/abcdefghijk,,\nsoon,https://www.tiktok.com/@h/video/123,,\n";
+  const { rows, problems } = parseSheet(csv);
+  assert.equal(rows.length, 1);
+  assert.equal(problems.length, 3);
+  assert.match(problems[0], /row 2/);
+  assert.match(problems[1], /date/);
 });
