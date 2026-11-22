@@ -20,6 +20,10 @@ Row 1 must be exactly: `date | link | title | hide`
 - **Want it to show now?** GitHub → your repo → Actions → "Update archive and deploy" → Run workflow.
 - **Something didn't appear?** Open the latest run in Actions and look for lines starting with `WARNING:` — they say which sheet row was skipped and why.
 
+## Archive start
+
+The calendar starts at `archiveStart` in `config.json` (now 2022-06-01). Older videos stay in the sheet but aren't shown. Ask Claude to change it.
+
 ## One-time setup notes (for Claude / whoever helps)
 
 - GitHub → Settings → Pages: Source = **GitHub Actions**, Custom domain = `hanifzulkifli.com`, tick Enforce HTTPS (the CNAME file alone is not enough for Action deploys).

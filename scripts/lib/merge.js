@@ -15,8 +15,11 @@ function youtubeVideo(id, title, publishedAt, isShort) {
   };
 }
 
-/** Combine the YouTube store, sheet rows and TikTok cache into the site's video list. */
-export function mergeVideos(store, rows, tiktokCache) {
+/**
+ * Combine the YouTube store, sheet rows and TikTok cache into the site's video list.
+ * `since` ("YYYY-MM-DD", optional) leaves out anything dated before the archive start.
+ */
+export function mergeVideos(store, rows, tiktokCache, { since } = {}) {
   const ytRows = new Map(rows.filter((r) => r.kind === "youtube").map((r) => [r.videoId, r]));
   const out = [];
   const seen = new Set();
@@ -46,5 +49,5 @@ export function mergeVideos(store, rows, tiktokCache) {
     });
   }
 
-  return out.sort(byNewest);
+  return out.filter((v) => !since || v.date >= since).sort(byNewest);
 }

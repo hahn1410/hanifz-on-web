@@ -62,3 +62,9 @@ test("a sheet date equal to YouTube's own date keeps the exact upload time", () 
   const [, vid] = mergeVideos(store, [yt("abcdefghijk", { date: "2024-01-02" })], {});
   assert.equal(vid.publishedAt, "2024-01-01T17:00:00Z");
 });
+
+test("videos before the archive start date are left out", () => {
+  const out = mergeVideos(store, [tt("111", "2023-12-31")], { "111": { title: "t", thumbPath: "p" } }, { since: "2024-01-02" });
+  assert.deepEqual(out.map((v) => v.id), ["shortshort1", "abcdefghijk"]);
+  assert.equal(mergeVideos(store, [], {}, { since: "2024-01-03" }).length, 1);
+});

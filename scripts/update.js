@@ -83,7 +83,7 @@ export async function runUpdate({ config, root, fetchFn = fetch, detect = detect
     warnings.push("Skipped publishing because the YouTube store is unreadable");
     return { warnings };
   }
-  const videos = mergeVideos(store, rows, tiktok);
+  const videos = mergeVideos(store, rows, tiktok, { since: config.archiveStart });
   if (videos.length > 0) {
     await writeJson(p("site/data/videos.json"), videos);
     console.log(`Site: ${videos.length} videos`);
